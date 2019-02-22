@@ -15,9 +15,9 @@ public class WebServer {
      }
 
      String[] hostnamePort = args[0].split(":");
+//     String[] hostnamePort = ":8080".split(":");
      int port;
      InetSocketAddress socket;
-     
      if (hostnamePort.length == 2) {
        port = Integer.parseInt(hostnamePort[1]);
        socket = new InetSocketAddress(hostnamePort[0], port);
@@ -27,7 +27,9 @@ public class WebServer {
      }
 
      new BuildInfoCollector().register();
-     new JmxCollector(new File(args[1])).register();
+//     new JmxCollector(new File("./example_configs/httpserver_sample_config.yml")).register();
+//     new JmxJsonCollector(new File("./example_configs/httpserver_sample_config.yml")).register();
+     new JmxJsonCollector(new File(args[1])).register();
      new HTTPServer(socket, CollectorRegistry.defaultRegistry);
    }
 }

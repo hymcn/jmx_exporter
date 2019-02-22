@@ -1,4 +1,4 @@
-JMX Exporter
+JMX  Exporter
 =====
 
 JMX to Prometheus exporter: a collector that can configurably scrape and
@@ -136,3 +136,22 @@ Add the following flag to your Java invocation:
 A Debian binary package is created as part of the build process and it can
 be used to install an executable into `/usr/bin/jmx_exporter` with configuration
 in `/etc/jmx_exporter/jmx_exporter.yaml`.
+
+## 项目初衷
+Hadoop已经运行了一段时间，项目想基于jmx完成hadoop监控（基于Prometheus），
+调研发现需要增加类似jmx_exporter这样的东西，原理是在于hadoop启动过程中，增加
+agent读取JMX状态，以HTTP形式导出。发现需要改启动文件，加一些配置。
+前期也了解到hadoop的console会通过接口输出jmx数据，就想着何必费力动刀hadoop，还不如在
+现有JMX http接口的基础上做转换，HTTP多简单灵活，而且JOSN格式处理起来多容易。
+于是诞生了本项目。
+
+项目基于jmx_exporter做了一些简单的扩展，使用方法与原项目保持一致，够用就行。
+
+### 配置说明
+只需要配置hadoop导出的jmx地址即可，参考文件
+httpserver_json_sample_config.yml
+
+### 启动脚本
+nohup java -jar jmx_prometheus_httpserver-0.11.1-SNAPSHOT-jar-with-dependencies.jar host:port httpserver_json_sample_config.yml &
+
+
